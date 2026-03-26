@@ -102,90 +102,103 @@
 
  
 
-    const flexMessage =
+    const profile = await liff.getProfile();
 
-                {
-
-      type: "flex",
-
-      altText: "Check this out!",
-
-      contents: {
-
+const flexMessage = {
+  type: "flex",
+  altText: "Campaign Share",
+  contents: {
+    type: "carousel",
+    contents: [
+      // 👉 Bubble 1: Full Image
+      {
         type: "bubble",
-
-        body: {
-
-          type: "box",
-
-          layout: "vertical",
-
-          contents: [
-
-            {
-
-              type: "text",
-
-              text: "Special Offer 🎉",
-
-              weight: "bold",
-
-              size: "xl"
-
-            },
-
-            {
-
-              type: "text",
-
-              text: "Click below to learn more",
-
-              size: "sm",
-
-              color: "#666666",
-
-              margin: "md"
-
-            }
-
-          ]
-
+        hero: {
+          type: "image",
+          url: "https://cdn25.lemnisk.co/ssp/TH_AIA_PROD_DMP/d7394919-8296-4704-a1aa-aad7b3edcfff.png",
+          size: "full",
+          aspectRatio: "1:1",
+          aspectMode: "cover",
+          action: {
+            type: "uri",
+            uri: targetUrl
+          }
         },
-
-        footer: {
-
+        body: {
           type: "box",
-
           layout: "vertical",
-
-          contents: [
-
-            {
-
-              type: "button",
-
-              style: "primary",
-
-              action: {
-
-                type: "uri",
-
-                label: "View Now",
-
-                uri: targetUrl
-
-              }
-
-            }
-
-          ]
-
+          contents: [],
+          paddingAll: "0px"
         }
+      },
 
+      // 👉 Bubble 2: Banner + Profile + Text
+      {
+        type: "bubble",
+        hero: {
+          type: "image",
+          url: "https://your-banner-image.jpg",
+          size: "full",
+          aspectRatio: "1:1",
+          aspectMode: "cover"
+        },
+        body: {
+          type: "box",
+          layout: "vertical",
+          spacing: "md",
+          contents: [
+            {
+              type: "box",
+              layout: "horizontal",
+              spacing: "md",
+              contents: [
+                {
+                  type: "image",
+                  url: profile.pictureUrl,
+                  size: "sm",
+                  aspectRatio: "1:1",
+                  aspectMode: "cover",
+                  cornerRadius: "100px"
+                },
+                {
+                  type: "text",
+                  text: profile.displayName,
+                  weight: "bold",
+                  size: "md",
+                  align: "start",
+                  gravity: "center",
+                  wrap: true
+                }
+              ]
+            },
+            {
+              type: "text",
+              text: "ชวนคุณมาดูแคมเปญพิเศษ 🎉 พร้อมสิทธิประโยชน์ดีๆ ที่ไม่ควรพลาด",
+              size: "sm",
+              color: "#666666",
+              wrap: true
+            }
+          ]
+        },
+        footer: {
+          type: "box",
+          layout: "vertical",
+          contents: [
+            {
+              type: "button",
+              style: "primary",
+              action: {
+                type: "uri",
+                label: "ดูรายละเอียด",
+                uri: targetUrl
+              }
+            }
+          ]
+        }
       }
-
-    };
-
+    ]
+  }
+};
  
 
     try {
