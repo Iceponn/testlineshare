@@ -106,97 +106,120 @@
 //alert(profile.pictureUrl);
 const flexMessage = {
   type: "flex",
-  altText: "Campaign Share",
-  contents: {
-    type: "carousel",
-    contents: [
-      // 👉 Bubble 1: Full Image
-      {
-        type: "bubble",
-        hero: {
-          type: "image",
-          url: "https://cdn25.lemnisk.co/ssp/TH_AIA_PROD_DMP/d7394919-8296-4704-a1aa-aad7b3edcfff.png",
-          size: "full",
-          aspectRatio: "1:1",
-          aspectMode: "cover",
-          action: {
-            type: "uri",
-            uri: targetUrl
-          }
-        },
-        body: {
-          type: "box",
-          layout: "vertical",
-          contents: [],
-          paddingAll: "0px"
+  altText: "PM 2.5 ภัยเงียบที่ต้องระวัง",
+  contents: 
+  {
+  type: "carousel",
+  contents: [
+    {
+      type: "bubble",
+      hero: {
+        type: "image",
+        url: "https://www.aia.co.th/content/dam/th-wise/images/th/LINE/PM25_2.png",
+        size: "full",
+        aspectRatio: "16:9",
+        aspectMode: "cover",
+        action: {
+          type: "uri",
+          uri: targetUrl
         }
       },
-
-      // 👉 Bubble 2: Banner + Profile + Text
-      {
-        type: "bubble",
-        hero: {
-          type: "image",
-          url: "https://cdn25.lemnisk.co/ssp/TH_AIA_PROD_DMP/d7394919-8296-4704-a1aa-aad7b3edcfff.png",
-          size: "full",
-          aspectRatio: "1:1",
-          aspectMode: "cover"
-        },
-        body: {
-          type: "box",
-          layout: "vertical",
-          spacing: "md",
-          contents: [
-            {
-              type: "box",
-              layout: "horizontal",
-              spacing: "md",
-              contents: [
-                {
-                  type: "image",
-                  url: profile.pictureUrl,
-                  size: "sm",
-                  aspectRatio: "1:1",
-                  aspectMode: "cover"
-                },
-                {
-                  type: "text",
-                  text: profile.displayName,
-                  weight: "bold",
-                  size: "md",
-                  align: "start",
-                  gravity: "center",
-                  wrap: true
-                }
-              ]
-            },
-            {
-              type: "text",
-              text: "ชวนคุณมาดูแคมเปญพิเศษ 🎉 พร้อมสิทธิประโยชน์ดีๆ ที่ไม่ควรพลาด",
-              size: "sm",
-              color: "#666666",
-              wrap: true
-            }
-          ]
-        },
-        footer: {
-          type: "box",
-          layout: "vertical",
-          contents: [
-            {
-              type: "button",
-              style: "primary",
-              action: {
-                type: "uri",
-                label: "ดูรายละเอียด",
-                uri: targetUrl
+      body: {
+        type: "box",
+        layout: "horizontal",
+        contents: [
+          {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              {
+                type: "image",
+                url: profile.pictureUrl,
+                aspectMode: "cover",
+                size: "full"
               }
-            }
-          ]
-        }
+            ],
+            cornerRadius: "100px",
+            width: "72px",
+            height: "72px"
+          },
+          {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              {
+                type: "text",
+                contents: [
+                  {
+                    type: "span",
+                    text: profile.displayName,
+                    weight: "bold",
+                    color: "#000000"
+                  },
+                  {
+                    type: "span",
+                    text: "     "
+                  }
+                ],
+                size: "sm",
+                wrap: true
+              },
+              {
+                type: "text",
+                text: "ช่วงนี้ฝุ่น PM2.5 กลับมารุนแรงอีกแล้ว มาเตรียมความพร้อมรับมือไปพร้อมกันเลย",
+                contents: [],
+                wrap: true,
+                size: "md",
+                offsetTop: "lg"
+              }
+            ]
+          }
+        ],
+        spacing: "xl",
+        paddingAll: "20px"
+      },
+      footer: {
+        type: "box",
+        layout: "vertical",
+        contents: [
+          {
+            type: "button",
+            action: {
+              type: "uri",
+              label: "อ่านบทความเพิ่มเติม",
+              uri: targetUrl
+            },
+            style: "primary",
+            offsetTop: "none",
+            offsetBottom: "none",
+            offsetStart: "none",
+            offsetEnd: "none",
+            margin: "none",
+            color: "#D31145"
+          }
+        ]
       }
-    ]
-  }
+    },
+    {
+      type: "bubble",
+      body: {
+        type: "box",
+        layout: "vertical",
+        contents: [
+          {
+            type: "image",
+            url: "https://www.aia.co.th/content/dam/th-wise/images/th/LINE/PM25_1.png",
+            size: "full",
+            aspectMode: "cover",
+            aspectRatio: "3:4",
+            gravity: "top"
+          }
+        ],
+        paddingAll: "0px"
+      }
+    }
+  ]
+}
 };
  
 
