@@ -1,388 +1,359 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Preview - Health Starter</title>
-    <style>
-        :root {
-            --line-bg: #eaeef1;
-            --bubble-bg: #ffffff;
-            --primary-red: #D31145;
-            --text-main: #000000;
-            --text-sub: #8c8c8c;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root {
+    --line-bg: #eaeef1;
+    --bubble-bg: #ffffff;
+    --primary-red: #D31145;
+    --primary-red-hover: #E52A5A;
+    --text-main: #111111;
+    --text-sub: #555555;
+    --bg-light: #f8f9fa;
+}
+* { box-sizing: border-box; }
+body {
+    background-color: var(--line-bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 150px;
+}
+.carousel-container { 
+    display: flex; overflow-x: auto; overflow-y: hidden; width: 100%; 
+    padding: 20px; gap: 16px; -webkit-overflow-scrolling: touch; scrollbar-width: none; align-items: stretch; 
+}
+.carousel-container::-webkit-scrollbar { display: none; }
 
-        body {
-            background-color: var(--line-bg);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
+.bubble2 { 
+    background: var(--bubble-bg); border-radius: 20px; width: 300px; flex-shrink: 0; 
+    display: flex; flex-direction: column; justify-content: space-between;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08); position: relative; overflow: hidden; 
+}
+.bubble-full-img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3 / 4; display: block; }
+.bubble-image-only { padding: 0; height: 100%; }
 
-        /* Carousel Container */
-        .carousel-container {
-            display: flex;
-            overflow-x: auto;
-            padding: 20px;
-            gap: 12px;
-            max-width: 100%;
-            scrollbar-width: none; /* Hide scrollbar for Firefox */
-        }
+/* Agent Card Design */
+.agent-card-body {
+    padding: 40px 24px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+.avatar-container { 
+    width: 100px; height: 100px; border-radius: 50%; overflow: hidden; 
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12); margin-bottom: 16px; 
+}
+.avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .carousel-container::-webkit-scrollbar {
-            display: none; /* Hide scrollbar for Chrome/Safari */
-        }
+.title-text { font-weight: 800; font-size: 22px; color: var(--text-main); margin-bottom: 4px; text-align: center; }
+.real-name { font-size: 15px; color: var(--text-sub); font-weight: 500; margin-bottom: 24px; text-align: center; }
 
-        /* Bubble Style */
-        .bubble {
-            background: var(--bubble-bg);
-            border-radius: 20px;
-            width: 300px;
-            flex-shrink: 0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+.info-list {
+    width: 100%; background: var(--bg-light); border-radius: 12px;
+    padding: 16px; display: flex; flex-direction: column; gap: 10px;
+}
+.info-row { display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
+.info-label { color: #888; }
+.info-value { color: #222; font-weight: 700; }
 
-        /* Hero Section */
-        .hero-img {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            display: block;
-        }
+.footer { padding: 15px 24px 24px; }
+.btn-primary { 
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-hover)); 
+    box-shadow: 0 4px 15px rgba(211, 17, 69, 0.35);
+    color: white; text-align: center; padding: 14px; border-radius: 999px; /* Pill shape */
+    font-weight: bold; display: block; font-size: 16px; cursor: pointer; border: none; width: 100%; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(211, 17, 69, 0.2); }
 
-        /* Body Section */
-        .body-box {
-            padding: 20px;
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-        }
+/* Edit Button */
+.edit-btn { 
+    position: absolute; top: 16px; right: 16px; background: white; border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 6px 12px; border-radius: 20px; 
+    font-size: 13px; font-weight: bold; color: #444; cursor: pointer; z-index: 10; 
+    display: flex; align-items: center; gap: 4px; transition: background 0.2s;
+}
+.edit-btn:hover { background: #f0f0f0; }
 
-        .avatar-container {
-            width: 72px;
-            height: 72px;
-            border-radius: 100px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
+/* Floating Buttons (Bottom) */
+.fab-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.action-btn { background: #06C755; color: white; border: none; border-radius: 999px; padding: 14px 18px; font-size: 15px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; width: 260px; }
+.action-btn:hover { transform: scale(1.05); }
+.line-icon{ width:30px; margin-right:6px; }
 
-        .avatar-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .content-box {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .title-text {
-            font-weight: bold;
-            font-size: 14px;
-            color: var(--text-main);
-        }
-
-        .description-text {
-            font-size: 16px;
-            margin-top: 8px;
-            line-height: 1.4;
-            color: var(--text-main);
-        }
-
-        /* Footer Section */
-        .footer {
-            padding: 0 20px 20px 20px;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-red);
-            color: white;
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-            font-size: 14px;
-        }
-
-        /* Second Bubble specific styling */
-        .bubble-full-img {
-            width: 100%;
-            aspect-ratio: 3 / 4;
-            object-fit: cover;
-            display: block;
-        }
-
-        .bubble-image-only {
-            padding: 0;
-        }
-    </style>
+/* Modal Styles */
+.modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+.modal-content { background-color: #fff; padding: 24px; border-radius: 16px; width: 90%; max-width: 340px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.modal-header { font-size: 18px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #111; }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 13px; margin-bottom: 6px; font-weight: bold; color: #555; }
+.form-group input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: border 0.2s; }
+.form-group input:focus { border-color: var(--primary-red); }
+.modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+.btn-cancel { flex: 1; padding: 12px; border: none; border-radius: 8px; background: #eee; color: #555; cursor: pointer; font-weight: bold; font-size: 14px; }
+.btn-save { flex: 1; padding: 12px; border: none; border-radius: 8px; background: var(--primary-red); color: white; cursor: pointer; font-weight: bold; font-size: 14px; }
+</style>
 </head>
 <body>
-<script src=https://static.line-scdn.net/liff/edge/2/sdk.js></script>
- 
-  <style>
- 
-  
- 
-#lineShareFAB {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 9999;
- 
-  background: #06C755;
-  color: white;
-  border: none;
-  border-radius: 999px;
- 
-  padding: 14px 18px;
-  font-size: 20px;
-  font-weight: bold;
- 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  cursor: pointer;
- 
-  transition: all 0.2s ease;
-}
- 
-#lineShareFAB:hover {
-  transform: scale(1.05);
-}
- 
- 
-  </style>
- 
-  <script>
- 
-  const LIFF_ID = "2008366647-fEkWsKAE";
- 
- 
-  async function init() {
- 
-    await liff.init({ liffId: LIFF_ID });
-// alert(liff.isApiAvailable('shareTargetPicker'));
- 
-    if (!liff.isLoggedIn()) {
- 
-      liff.login();
-                   //alert("login");
- 
-    }
- 
-  }
- 
- 
-  function getQueryParams() {
- 
-    const params = new URLSearchParams(window.location.search);
- 
-    return params.toString(); // return full query string
- 
-  }
- 
- 
-  async function shareFlex() {
- 
-    const query = getQueryParams();
- 
- 
-    // 👉 Your CTA destination (append params here)
- 
-    const targetUrl = "https://liff.line.me/1579415428-XPQpaQ5W?" + query;
- 
- 
- 
-// alert("prep");
- 
-    const profile = await liff.getProfile();
-//alert(profile.pictureUrl);
-const flexMessage = {
-  type: "flex",
-  altText: "ให้ความรักดูแลเขาได้ทุกวัน ด้วยประกันที่เตรียมไว้ให้ลูกตั้งแต่วันนี้",
-  contents:
-  {
-  "type": "carousel",
-  "contents": [
-    {
-      "type": "bubble",
-      "hero": {
-        "type": "image",
-        "url": "https://www.aia.co.th/content/dam/th-wise/images/th/LINE/HST_banner.png",
-        "size": "full",
-        "aspectRatio": "16:9",
-        "aspectMode": "cover",
-        "action": {
-          "type": "uri",
-          "uri": targetUrl
-        }
-      },
-      "body": {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "image",
-                "url": profile.pictureUrl,
-                "aspectMode": "cover",
-                "size": "full"
-              }
-            ],
-            "cornerRadius": "100px",
-            "width": "72px",
-            "height": "72px"
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "text",
-                "contents": [
-                  {
-                    "type": "span",
-                    "text": profile.displayName,
-                    "weight": "bold",
-                    "color": "#000000"
-                  },
-                  {
-                    "type": "span",
-                    "text": "     "
-                  }
-                ],
-                "size": "sm",
-                "wrap": true
-              },
-              {
-                "type": "text",
-                "text": "ให้ความรักดูแลเขาได้ทุกวัน ด้วยประกันที่เตรียมไว้ให้ลูกตั้งแต่วันนี้ 👶✨",
-                "contents": [],
-                "wrap": true,
-                "size": "md",
-                "offsetTop": "lg"
-              }
-            ]
-          }
-        ],
-        "spacing": "xl",
-        "paddingAll": "20px"
-      },
-      "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "uri",
-              "label": "อ่านบทความเพิ่มเติม",
-              "uri": targetUrl
-            },
-            "style": "primary",
-            "offsetTop": "none",
-            "offsetBottom": "none",
-            "offsetStart": "none",
-            "offsetEnd": "none",
-            "margin": "none",
-            "color": "#D31145"
-          }
-        ]
-      }
-    },
-    {
-      "type": "bubble",
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "image",
-            "url": "https://www.aia.co.th/content/dam/th-wise/images/th/LINE/HST.png",
-            "size": "full",
-            "aspectMode": "cover",
-            "aspectRatio": "3:4",
-            "gravity": "top"
-          }
-        ],
-        "paddingAll": "0px"
-      }
-    }
-  ]
-}
-};
- 
-    try {
- 
-      if (liff.isApiAvailable('shareTargetPicker')) {
- 
-        await liff.shareTargetPicker([flexMessage]);
- 
-      } else {
- 
-        alert("ShareTargetPicker not supported");
- 
-      }
- 
-    } catch (err) {
- 
-      console.error(err);
- 
-      alert("Share failed");
- 
-    }
- 
-  }
- 
- 
-  init();
- 
-</script>
- 
-<button id="lineShareFAB" onclick="shareFlex()">
-  <img src=https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg width="20" style="vertical-align:middle;margin-right:6px;">
-  แชร์ให้ลูกค้า
-</button>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-    <div class="carousel-container">
-        
-        <div class="bubble">
-            <a href="https://line.me/">
-                <img src="https://www.aia.co.th/content/dam/th-wise/images/th/LINE/HST_banner.png" class="hero-img" alt="Banner">
-            </a>
-            <div class="body-box">
-                <div class="avatar-container">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2037/2037844.png" class="avatar-img" alt="Avatar">
-                </div>
-                <div class="content-box">
-                    <span class="title-text">Agent name</span>
-                    <div class="description-text">ให้ความรักดูแลเขาได้ทุกวัน ด้วยประกันที่เตรียมไว้ให้ลูกตั้งแต่วันนี้ 👶✨</div>
-                </div>
-            </div>
-            <div class="footer">
-                <a href="http://linecorp.com/" class="btn-primary">อ่านบทความเพิ่มเติม</a>
-            </div>
+<!-- Floating Buttons -->
+<div class="fab-container">
+    <button class="action-btn" onclick="window.open('https://aiathailand.info/DISC_MPCI_CIP_Q3_2026_share_content', '_blank');">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon" alt="LINE">
+        ดูรายชื่อลูกค้าที่ได้รับสิทธิ
+    </button>
+    <button class="action-btn" onclick="shareFlex()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon" alt="LINE">
+        แชร์ให้ลูกค้าที่ได้รับสิทธิ
+    </button>
+</div>
+
+<!-- Carousel -->
+<div class="carousel-container">
+    <!-- Bubble 1: Full Image -->
+    <div class="bubble2">
+        <div class="bubble-image-only">
+            <img src="https://www.aia.co.th/content/dam/th-wise/images/th/LINE/26aug_banner4_2.jpg" class="bubble-full-img" alt="Image">
         </div>
-
-        <div class="bubble">
-            <div class="bubble-image-only">
-                <img src="https://www.aia.co.th/content/dam/th-wise/images/th/LINE/HST.png" class="bubble-full-img" alt="Promo">
-            </div>
-        </div>
-
     </div>
 
+    <!-- Bubble 2: Agent Contact Card -->
+    <div class="bubble2">
+        <button class="edit-btn" onclick="openModal()">✏️ แก้ไข</button>
+        <div class="agent-card-body">
+            <div class="avatar-container">
+                <img id="preview-avatar" src="https://cdn-icons-png.flaticon.com/512/2037/2037844.png" class="avatar-img" alt="Avatar">
+            </div>
+            
+            <div class="title-text" id="preview-line-name">LINE Name</div>
+            <div class="real-name" id="preview-real-name">ชื่อ-นามสกุลจริง</div>
+            
+            <div class="info-list">
+                <div class="info-row">
+                    <span class="info-label">รหัสตัวแทน</span>
+                    <span class="info-value" id="preview-agent-code">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">ชื่อหน่วย</span>
+                    <span class="info-value" id="preview-agent-unit">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">เบอร์ติดต่อ</span>
+                    <span class="info-value" id="preview-agent-phone">-</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button class="btn-primary">สนใจทักแชท</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">ข้อมูลนามบัตรตัวแทน</div>
+        <div class="form-group">
+            <label>ชื่อ-นามสกุลจริง</label>
+            <input type="text" id="input-real-name" placeholder="เช่น สมชาย ใจดี">
+        </div>
+        <div class="form-group">
+            <label>รหัสตัวแทน</label>
+            <input type="text" id="input-agent-code" placeholder="เช่น 123456">
+        </div>
+        <div class="form-group">
+            <label>ชื่อหน่วย</label>
+            <input type="text" id="input-agent-unit" placeholder="เช่น นำทอง 1">
+        </div>
+        <div class="form-group">
+            <label>เบอร์ติดต่อ</label>
+            <input type="tel" id="input-agent-phone" placeholder="เช่น 081-234-5678">
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
+            <button class="btn-save" onclick="saveAgentInfo()">บันทึกข้อมูล</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const LIFF_ID = "1520199094-ue4p5mwB";
+let userProfile = null;
+
+async function init() {
+    loadAgentInfo();
+    try {
+        await liff.init({ liffId: LIFF_ID });
+        if (!liff.isInClient()) { console.log("Not inside LINE app"); return; }
+        if (!liff.isLoggedIn()) { 
+            liff.login(); 
+        } else {
+            userProfile = await liff.getProfile();
+            document.getElementById('preview-avatar').src = userProfile.pictureUrl || "https://cdn-icons-png.flaticon.com/512/2037/2037844.png";
+            document.getElementById('preview-line-name').innerText = userProfile.displayName;
+        }
+    } catch(err) { console.error(err); }
+}
+
+function loadAgentInfo() {
+    const realName = localStorage.getItem('agentRealName') || 'ชื่อ-นามสกุลจริง';
+    const agentCode = localStorage.getItem('agentCode') || '-';
+    const agentUnit = localStorage.getItem('agentUnit') || '-';
+    const agentPhone = localStorage.getItem('agentPhone') || '-';
+
+    document.getElementById('preview-real-name').innerText = realName;
+    document.getElementById('preview-agent-code').innerText = agentCode;
+    document.getElementById('preview-agent-unit').innerText = agentUnit;
+    document.getElementById('preview-agent-phone').innerText = agentPhone;
+}
+
+function openModal() {
+    document.getElementById('input-real-name').value = localStorage.getItem('agentRealName') || '';
+    document.getElementById('input-agent-code').value = localStorage.getItem('agentCode') || '';
+    document.getElementById('input-agent-unit').value = localStorage.getItem('agentUnit') || '';
+    document.getElementById('input-agent-phone').value = localStorage.getItem('agentPhone') || '';
+    document.getElementById('editModal').style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById('editModal').style.display = "none";
+}
+
+function saveAgentInfo() {
+    localStorage.setItem('agentRealName', document.getElementById('input-real-name').value);
+    localStorage.setItem('agentCode', document.getElementById('input-agent-code').value);
+    localStorage.setItem('agentUnit', document.getElementById('input-agent-unit').value);
+    localStorage.setItem('agentPhone', document.getElementById('input-agent-phone').value);
+    loadAgentInfo();
+    closeModal();
+}
+
+async function shareFlex() {
+    try {
+        const profile = userProfile || await liff.getProfile();
+        const rName = localStorage.getItem('agentRealName') || 'ชื่อ-นามสกุล';
+        const rCode = localStorage.getItem('agentCode') || '-';
+        const rUnit = localStorage.getItem('agentUnit') || '-';
+        const rPhone = localStorage.getItem('agentPhone') || '-';
+
+        const flexMessage = {
+            type: "flex",
+            altText: "สิทธิพิเศษนี้เฉพาะคุณเท่านั้น สนใจทักแชทกลับได้เลย",
+            contents: {
+                type: "carousel",
+                contents: [
+                    {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "image",
+                                    "url": "https://www.aia.co.th/content/dam/th-wise/images/th/LINE/26aug_banner4_2.jpg",
+                                    "size": "full",
+                                    "aspectMode": "cover",
+                                    "aspectRatio": "3:4",
+                                    "gravity": "top"
+                                }
+                            ],
+                            "paddingAll": "0px"
+                        }
+                    },
+                    {
+                        "type": "bubble",
+                        "size": "mega",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "paddingAll": "xl",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        { "type": "image", "url": profile.pictureUrl || "https://cdn-icons-png.flaticon.com/512/2037/2037844.png", "aspectMode": "cover", "size": "full" }
+                                    ],
+                                    "cornerRadius": "100px", "width": "100px", "height": "100px", "margin": "md"
+                                },
+                                {
+                                    "type": "text", "text": profile.displayName || "Agent Name", "weight": "bold", "color": "#111111", "size": "xl", "align": "center", "margin": "lg"
+                                },
+                                {
+                                    "type": "text", "text": rName, "size": "sm", "color": "#555555", "align": "center", "weight": "bold", "margin": "xs"
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "margin": "xl",
+                                    "backgroundColor": "#F8F9FA",
+                                    "cornerRadius": "lg",
+                                    "paddingAll": "md",
+                                    "spacing": "md",
+                                    "contents": [
+                                        {
+                                            "type": "box", "layout": "horizontal", "contents": [
+                                                { "type": "text", "text": "รหัสตัวแทน", "size": "xs", "color": "#888888", "flex": 1 },
+                                                { "type": "text", "text": rCode, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
+                                            ]
+                                        },
+                                        {
+                                            "type": "box", "layout": "horizontal", "contents": [
+                                                { "type": "text", "text": "ชื่อหน่วย", "size": "xs", "color": "#888888", "flex": 1 },
+                                                { "type": "text", "text": rUnit, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
+                                            ]
+                                        },
+                                        {
+                                            "type": "box", "layout": "horizontal", "contents": [
+                                                { "type": "text", "text": "เบอร์ติดต่อ", "size": "xs", "color": "#888888", "flex": 1 },
+                                                { "type": "text", "text": rPhone, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "alignItems": "center"
+                        },
+                        "footer": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "paddingAll": "xl",
+                            "contents": [
+                                {
+                                    "type": "button",
+                                    "style": "primary",
+                                    "color": "#D31145",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "สนใจทักแชท",
+                                        "text": "สนใจสอบถามข้อมูลเพิ่มเติม"
+                                    }
+                                }
+                            ],
+                            "paddingTop": "0px"
+                        }
+                    }
+                ]
+            }
+        };
+
+        if (liff.isApiAvailable('shareTargetPicker')) {
+            await liff.shareTargetPicker([flexMessage]);
+        } else {
+            alert("ShareTargetPicker not supported");
+        }
+    } catch(err) {
+        console.error(err);
+        alert("Share failed: " + err.message);
+    }
+}
+init();
+</script>
 </body>
 </html>
