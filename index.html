@@ -278,12 +278,12 @@ async function shareFlex() {
                                     "type": "box",
                                     "layout": "vertical",
                                     "contents": [
-                                        { "type": "image", "url": profile.pictureUrl || "https://cdn-icons-png.flaticon.com/512/2037/2037844.png", "aspectMode": "cover", "size": "full" }
+                                        { "type": "image", "url": profile.pictureUrl, "aspectMode": "cover", "size": "full" }
                                     ],
                                     "cornerRadius": "100px", "width": "100px", "height": "100px", "margin": "md"
                                 },
                                 {
-                                    "type": "text", "text": profile.displayName || "Agent Name", "weight": "bold", "color": "#111111", "size": "xl", "align": "center", "margin": "lg"
+                                    "type": "text", "text": profile.displayName, "weight": "bold", "color": "#111111", "size": "xl", "align": "center", "margin": "lg"
                                 },
                                 {
                                     "type": "text", "text": rName, "size": "sm", "color": "#555555", "align": "center", "weight": "bold", "margin": "xs"
