@@ -183,7 +183,7 @@ body {
 </div>
 
 <script>
-const LIFF_ID = "1520199094-pdVJflv5";
+const LIFF_ID = "1520199094-ue4p5mwB";
 let userProfile = null;
 
 async function init() {
@@ -202,7 +202,7 @@ async function init() {
 }
 
 function loadAgentInfo() {
-    const realName = localStorage.getItem('agentRealName') || 'ชื่อ-นามสกุลจริง';
+    const realName = localStorage.getItem('agentRealName') || 'กรุณากดแก้ไขข้อมูล';
     const agentCode = localStorage.getItem('agentCode') || '-';
     const agentUnit = localStorage.getItem('agentUnit') || '-';
     const agentPhone = localStorage.getItem('agentPhone') || '-';
@@ -243,16 +243,17 @@ async function shareFlex() {
         const rPhone = localStorage.getItem('agentPhone') || '-';
 
         const flexMessage = {
-            type: "flex",
-            altText: "สิทธิพิเศษนี้เฉพาะคุณเท่านั้น สนใจทักแชทกลับได้เลย",
-            contents: {
-                type: "carousel",
-                contents: [
+            "type": "flex",
+            "altText": "สิทธิพิเศษนี้เฉพาะคุณเท่านั้น สนใจทักแชทกลับได้เลย",
+            "contents": {
+                "type": "carousel",
+                "contents": [
                     {
                         "type": "bubble",
                         "body": {
                             "type": "box",
                             "layout": "vertical",
+                            "paddingAll": "0px",
                             "contents": [
                                 {
                                     "type": "image",
@@ -262,81 +263,111 @@ async function shareFlex() {
                                     "aspectRatio": "3:4",
                                     "gravity": "top"
                                 }
-                            ],
-                            "paddingAll": "0px"
+                            ]
                         }
                     },
                     {
                         "type": "bubble",
-                        "size": "mega",
                         "body": {
                             "type": "box",
                             "layout": "vertical",
-                            "paddingAll": "xl",
+                            "paddingAll": "20px",
                             "contents": [
                                 {
                                     "type": "box",
-                                    "layout": "vertical",
+                                    "layout": "horizontal",
+                                    "justifyContent": "center",
                                     "contents": [
-                                        { "type": "image", "url": profile.pictureUrl, "aspectMode": "cover", "size": "full" }
-                                    ],
-                                    "cornerRadius": "100px", "width": "100px", "height": "100px", "margin": "md"
+                                        {
+                                            "type": "box",
+                                            "layout": "vertical",
+                                            "width": "100px",
+                                            "height": "100px",
+                                            "cornerRadius": "100px",
+                                            "contents": [
+                                                {
+                                                    "type": "image",
+                                                    "url": profile.pictureUrl || "https://cdn-icons-png.flaticon.com/512/2037/2037844.png",
+                                                    "size": "full",
+                                                    "aspectMode": "cover"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 },
                                 {
-                                    "type": "text", "text": profile.displayName, "weight": "bold", "color": "#111111", "size": "xl", "align": "center", "margin": "lg"
+                                    "type": "text",
+                                    "text": profile.displayName || "Agent Name",
+                                    "weight": "bold",
+                                    "color": "#111111",
+                                    "size": "xl",
+                                    "align": "center",
+                                    "margin": "lg"
                                 },
                                 {
-                                    "type": "text", "text": rName, "size": "sm", "color": "#555555", "align": "center", "weight": "bold", "margin": "xs"
+                                    "type": "text",
+                                    "text": rName,
+                                    "size": "sm",
+                                    "color": "#555555",
+                                    "align": "center",
+                                    "weight": "bold",
+                                    "margin": "md"
                                 },
                                 {
                                     "type": "box",
                                     "layout": "vertical",
-                                    "margin": "xl",
+                                    "margin": "lg",
                                     "backgroundColor": "#F8F9FA",
                                     "cornerRadius": "lg",
-                                    "paddingAll": "md",
-                                    "spacing": "md",
+                                    "paddingAll": "16px",
+                                    "spacing": "sm",
                                     "contents": [
                                         {
-                                            "type": "box", "layout": "horizontal", "contents": [
+                                            "type": "box",
+                                            "layout": "horizontal",
+                                            "contents": [
                                                 { "type": "text", "text": "รหัสตัวแทน", "size": "xs", "color": "#888888", "flex": 1 },
                                                 { "type": "text", "text": rCode, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
                                             ]
                                         },
                                         {
-                                            "type": "box", "layout": "horizontal", "contents": [
+                                            "type": "box",
+                                            "layout": "horizontal",
+                                            "contents": [
                                                 { "type": "text", "text": "ชื่อหน่วย", "size": "xs", "color": "#888888", "flex": 1 },
                                                 { "type": "text", "text": rUnit, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
                                             ]
                                         },
                                         {
-                                            "type": "box", "layout": "horizontal", "contents": [
+                                            "type": "box",
+                                            "layout": "horizontal",
+                                            "contents": [
                                                 { "type": "text", "text": "เบอร์ติดต่อ", "size": "xs", "color": "#888888", "flex": 1 },
                                                 { "type": "text", "text": rPhone, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
                                             ]
                                         }
                                     ]
                                 }
-                            ],
-                            "alignItems": "center"
+                            ]
                         },
                         "footer": {
                             "type": "box",
                             "layout": "vertical",
-                            "paddingAll": "xl",
+                            "paddingAll": "20px",
+                            "paddingTop": "0px",
                             "contents": [
                                 {
                                     "type": "button",
                                     "style": "primary",
                                     "color": "#D31145",
+                                    "height": "sm",
                                     "action": {
                                         "type": "message",
                                         "label": "สนใจทักแชท",
                                         "text": "สนใจสอบถามข้อมูลเพิ่มเติม"
                                     }
                                 }
-                            ],
-                            "paddingTop": "0px"
+                            ]
                         }
                     }
                 ]
@@ -344,9 +375,12 @@ async function shareFlex() {
         };
 
         if (liff.isApiAvailable('shareTargetPicker')) {
-            await liff.shareTargetPicker([flexMessage]);
+            const res = await liff.shareTargetPicker([flexMessage]);
+            if (res) {
+                console.log("Message sent");
+            }
         } else {
-            alert("ShareTargetPicker not supported");
+            alert("ShareTargetPicker is not supported on this LINE version.");
         }
     } catch(err) {
         console.error(err);
