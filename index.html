@@ -190,7 +190,7 @@ async function init() {
     loadAgentInfo();
     try {
         await liff.init({ liffId: LIFF_ID });
-        //if (!liff.isInClient()) { console.log("Not inside LINE app"); return; }
+        if (!liff.isInClient()) { console.log("Not inside LINE app"); return; }
         if (!liff.isLoggedIn()) { 
             liff.login(); 
         } else {
@@ -283,7 +283,7 @@ async function shareFlex() {
                                             "layout": "vertical",
                                             "width": "100px",
                                             "height": "100px",
-                                            "cornerRadius": "xxl",
+                                            "cornerRadius": "100px",
                                             "contents": [
                                                 {
                                                     "type": "image",
@@ -362,9 +362,9 @@ async function shareFlex() {
                                     "color": "#D31145",
                                     "height": "sm",
                                     "action": {
-                                         "type": "uri",
-              "label": "action",
-              "uri": "http://linecorp.com/"
+                                              "type": "uri",
+              "label": "ดูข้อมูลเพิ่มเติม",
+              "uri": "https://aiathailand.info/DISC_Q32026_share_content"
                                     }
                                 }
                             ]
