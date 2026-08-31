@@ -277,14 +277,59 @@ async function shareFlex() {
     try {
         const profile = userProfile || await liff.getProfile();
         
-        // ดึงข้อมูลเตรียมส่ง Flex
         const dName = localStorage.getItem('agentDisplayName') || 'Agent Profile';
         const bio = localStorage.getItem('agentBio') || '-';
         const exp = localStorage.getItem('agentExp') || '0';
         
+        // --- ส่วนที่ปรับปรุง: สร้าง Bubble ย่อยสำหรับความเชี่ยวชาญ ---
         const expertiseStr = localStorage.getItem('agentExpertise');
         const expertiseArray = expertiseStr ? JSON.parse(expertiseStr) : [];
-        const expertiseText = expertiseArray.length > 0 ? expertiseArray.join(" • ") : "ยังไม่ได้ระบุ";
+        const expertiseRows = [];
+
+        if (expertiseArray.length > 0) {
+            // จับกลุ่มแถวละ 2 อัน เพื่อไม่ให้ยาวทะลุขอบจอ LINE
+            for (let i = 0; i < expertiseArray.length; i += 2) {
+                const rowBadges = expertiseArray.slice(i, i + 2).map(skill => ({
+                    "type": "box",
+                    "layout": "vertical",
+                    "backgroundColor": "#fee2e2", // สีพื้นหลัง Badge
+                    "cornerRadius": "sm",
+                    "paddingStart": "8px",
+                    "paddingEnd": "8px",
+                    "paddingTop": "4px",
+                    "paddingBottom": "4px",
+                    "flex": 0, // สั่งให้กล่องกว้างพอดีกับตัวอักษร
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": skill,
+                            "size": "xxs",
+                            "color": "#D31145",
+                            "weight": "bold",
+                            "align": "center",
+                            "wrap": false
+                        }
+                    ]
+                }));
+
+                expertiseRows.push({
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "margin": "sm",
+                    "justifyContent": "flex-start",
+                    "contents": rowBadges
+                });
+            }
+        } else {
+            expertiseRows.push({
+                "type": "text",
+                "text": "ยังไม่ได้ระบุ",
+                "size": "xs",
+                "color": "#888888"
+            });
+        }
+        // --------------------------------------------------------
 
         const flexMessage = {
             "type": "flex",
@@ -381,8 +426,12 @@ async function shareFlex() {
                                             "layout": "vertical",
                                             "spacing": "xs",
                                             "contents": [
-                                                { "type": "text", "text": "ความเชี่ยวชาญ", "size": "xs", "color": "#888888" },
-                                                { "type": "text", "text": expertiseText, "size": "xs", "color": "#D31145", "weight": "bold", "wrap": true }
+                                                { "type": "text", "text": "ความเชี่ยวชาญ", "size": "xs", "color": "#888888", "margin": "sm" },
+                                                {
+                                                    "type": "box",
+                                                    "layout": "vertical",
+                                                    "contents": expertiseRows
+                                                }
                                             ]
                                         }
                                     ]
@@ -401,9 +450,9 @@ async function shareFlex() {
                                     "color": "#D31145",
                                     "height": "sm",
                                     "action": {
-                                        "type": "uri",
-              "label": "ดูข้อมูลเพิ่มเติม",
-              "uri": "https://aiathailand.info/DISC_Q32026_share_content"
+                                        "type": "message",
+                                        "label": "สนใจทักแชท",
+                                        "text": "สนใจสอบถามข้อมูลเพิ่มเติม"
                                     }
                                 }
                             ]
