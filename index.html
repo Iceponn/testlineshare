@@ -10,7 +10,7 @@
     --primary-red: #D31145;
     --primary-red-hover: #E52A5A;
     --text-main: #111111;
-    --text-sub: #555555;
+    --text-sub: #666666;
     --bg-light: #f8f9fa;
 }
 * { box-sizing: border-box; }
@@ -38,34 +38,42 @@ body {
 
 /* Agent Card Design */
 .agent-card-body {
-    padding: 40px 24px 10px;
+    padding: 40px 20px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
 }
 .avatar-container { 
-    width: 100px; height: 100px; border-radius: 50%; overflow: hidden; 
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12); margin-bottom: 16px; 
+    width: 90px; height: 90px; border-radius: 50%; overflow: hidden; 
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12); margin-bottom: 12px; 
 }
 .avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
-.title-text { font-weight: 800; font-size: 22px; color: var(--text-main); margin-bottom: 4px; text-align: center; }
-.real-name { font-size: 15px; color: var(--text-sub); font-weight: 500; margin-bottom: 24px; text-align: center; }
+.title-text { font-weight: 800; font-size: 20px; color: var(--text-main); margin-bottom: 6px; text-align: center; }
+.bio-text { font-size: 13px; color: var(--text-sub); text-align: center; margin-bottom: 20px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
 .info-list {
     width: 100%; background: var(--bg-light); border-radius: 12px;
-    padding: 16px; display: flex; flex-direction: column; gap: 10px;
+    padding: 14px; display: flex; flex-direction: column; gap: 12px;
 }
-.info-row { display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
-.info-label { color: #888; }
+.info-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.info-label { color: #888; font-weight: 500; }
 .info-value { color: #222; font-weight: 700; }
 
-.footer { padding: 15px 24px 24px; }
+.expertise-section { display: flex; flex-direction: column; gap: 6px; }
+.badge-container { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-start; }
+.badge { 
+    background: #fee2e2; color: var(--primary-red); 
+    padding: 4px 10px; border-radius: 6px; 
+    font-size: 11px; font-weight: 700; 
+}
+
+.footer { padding: 15px 20px 20px; }
 .btn-primary { 
     background: linear-gradient(135deg, var(--primary-red), var(--primary-red-hover)); 
     box-shadow: 0 4px 15px rgba(211, 17, 69, 0.35);
-    color: white; text-align: center; padding: 14px; border-radius: 999px; /* Pill shape */
+    color: white; text-align: center; padding: 14px; border-radius: 999px;
     font-weight: bold; display: block; font-size: 16px; cursor: pointer; border: none; width: 100%; 
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -73,14 +81,13 @@ body {
 
 /* Edit Button */
 .edit-btn { 
-    position: absolute; top: 16px; right: 16px; background: white; border: none;
+    position: absolute; top: 12px; right: 12px; background: white; border: none;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 6px 12px; border-radius: 20px; 
-    font-size: 13px; font-weight: bold; color: #444; cursor: pointer; z-index: 10; 
-    display: flex; align-items: center; gap: 4px; transition: background 0.2s;
+    font-size: 12px; font-weight: bold; color: #444; cursor: pointer; z-index: 10; 
 }
 .edit-btn:hover { background: #f0f0f0; }
 
-/* Floating Buttons (Bottom) */
+/* Floating Buttons */
 .fab-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; align-items: center; }
 .action-btn { background: #06C755; color: white; border: none; border-radius: 999px; padding: 14px 18px; font-size: 15px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; width: 260px; }
 .action-btn:hover { transform: scale(1.05); }
@@ -88,13 +95,21 @@ body {
 
 /* Modal Styles */
 .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; backdrop-filter: blur(2px); }
-.modal-content { background-color: #fff; padding: 24px; border-radius: 16px; width: 90%; max-width: 340px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-.modal-header { font-size: 18px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #111; }
+.modal-content { background-color: #fff; padding: 20px; border-radius: 16px; width: 90%; max-width: 340px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+.modal-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; text-align: center; color: #111; }
 .form-group { margin-bottom: 14px; }
 .form-group label { display: block; font-size: 13px; margin-bottom: 6px; font-weight: bold; color: #555; }
-.form-group input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; transition: border 0.2s; }
-.form-group input:focus { border-color: var(--primary-red); }
-.modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+.form-group input[type="text"], .form-group input[type="number"], .form-group textarea { 
+    width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; font-family: inherit;
+}
+.form-group textarea { resize: none; height: 70px; }
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.checkbox-group label { 
+    display: flex; align-items: center; font-size: 13px; font-weight: normal; color: #333; cursor: pointer;
+    background: #f1f1f1; padding: 6px 10px; border-radius: 6px; margin: 0;
+}
+.checkbox-group input[type="checkbox"] { margin-right: 6px; cursor: pointer; }
+.modal-actions { display: flex; gap: 12px; margin-top: 20px; }
 .btn-cancel { flex: 1; padding: 12px; border: none; border-radius: 8px; background: #eee; color: #555; cursor: pointer; font-weight: bold; font-size: 14px; }
 .btn-save { flex: 1; padding: 12px; border: none; border-radius: 8px; background: var(--primary-red); color: white; cursor: pointer; font-weight: bold; font-size: 14px; }
 </style>
@@ -131,26 +146,24 @@ body {
                 <img id="preview-avatar" src="https://cdn-icons-png.flaticon.com/512/2037/2037844.png" class="avatar-img" alt="Avatar">
             </div>
             
-            <div class="title-text" id="preview-line-name">LINE Name</div>
-            <div class="real-name" id="preview-real-name">ชื่อ-นามสกุลจริง</div>
+            <div class="title-text" id="preview-display-name">ชื่อที่ต้องการแสดง</div>
+            <div class="bio-text" id="preview-bio">คำแนะนำตัวสั้นๆ ของคุณ (ไม่เกิน 100 ตัวอักษร)</div>
             
             <div class="info-list">
                 <div class="info-row">
-                    <span class="info-label">รหัสตัวแทน</span>
-                    <span class="info-value" id="preview-agent-code">-</span>
+                    <span class="info-label">ประสบการณ์ทำงาน</span>
+                    <span class="info-value" id="preview-exp">-</span>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">ชื่อหน่วย</span>
-                    <span class="info-value" id="preview-agent-unit">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">เบอร์ติดต่อ</span>
-                    <span class="info-value" id="preview-agent-phone">-</span>
+                <div class="expertise-section">
+                    <span class="info-label">ความเชี่ยวชาญ</span>
+                    <div class="badge-container" id="preview-expertise">
+                        <span style="color:#aaa; font-size:12px;">-</span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="footer">
-            <button class="btn-primary">สนใจทักแชท</button>
+            <button class="btn-primary">ดูข้อมูลเพิ่มเติม</button>
         </div>
     </div>
 </div>
@@ -158,22 +171,28 @@ body {
 <!-- Edit Modal -->
 <div id="editModal" class="modal">
     <div class="modal-content">
-        <div class="modal-header">ข้อมูลนามบัตรตัวแทน</div>
+        <div class="modal-header">โปรไฟล์ตัวแทน</div>
         <div class="form-group">
-            <label>ชื่อ-นามสกุลจริง</label>
-            <input type="text" id="input-real-name" placeholder="เช่น สมชาย ใจดี">
+            <label>ชื่อที่ต้องการแสดง</label>
+            <input type="text" id="input-display-name" placeholder="เช่น โค้ชสมชาย AIA">
         </div>
         <div class="form-group">
-            <label>รหัสตัวแทน</label>
-            <input type="text" id="input-agent-code" placeholder="เช่น 123456">
+            <label>Short Bio (ไม่เกิน 100 ตัวอักษร)</label>
+            <textarea id="input-bio" maxlength="100" placeholder="คำแนะนำตัวสั้นๆ หรือสโลแกนประจำตัว..."></textarea>
         </div>
         <div class="form-group">
-            <label>ชื่อหน่วย</label>
-            <input type="text" id="input-agent-unit" placeholder="เช่น นำทอง 1">
+            <label>ประสบการณ์ทำงาน (ปี)</label>
+            <input type="number" id="input-exp" placeholder="เช่น 5" min="0">
         </div>
         <div class="form-group">
-            <label>เบอร์ติดต่อ</label>
-            <input type="tel" id="input-agent-phone" placeholder="เช่น 081-234-5678">
+            <label>ความเชี่ยวชาญ (เลือกได้มากกว่า 1)</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="expertise" value="ประกันโรคร้ายแรง"> ประกันโรคร้ายแรง</label>
+                <label><input type="checkbox" name="expertise" value="ประกันชีวิต"> ประกันชีวิต</label>
+                <label><input type="checkbox" name="expertise" value="ประกันสุขภาพ"> ประกันสุขภาพ</label>
+                <label><input type="checkbox" name="expertise" value="ยูนิตลิงก์"> ยูนิตลิงก์</label>
+                <label><input type="checkbox" name="expertise" value="เอไอเอไวทัลลิตี้"> เอไอเอไวทัลลิตี้</label>
+            </div>
         </div>
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
@@ -195,29 +214,44 @@ async function init() {
             liff.login(); 
         } else {
             userProfile = await liff.getProfile();
+            // ดึงแค่รูป Avatar จาก LINE แต่ไม่ไปทับ Display Name ที่ผู้ใช้ตั้งเอง
             document.getElementById('preview-avatar').src = userProfile.pictureUrl || "https://cdn-icons-png.flaticon.com/512/2037/2037844.png";
-            document.getElementById('preview-line-name').innerText = userProfile.displayName;
         }
     } catch(err) { console.error(err); }
 }
 
 function loadAgentInfo() {
-    const realName = localStorage.getItem('agentRealName') || 'กรุณากดแก้ไขข้อมูล';
-    const agentCode = localStorage.getItem('agentCode') || '-';
-    const agentUnit = localStorage.getItem('agentUnit') || '-';
-    const agentPhone = localStorage.getItem('agentPhone') || '-';
+    const dName = localStorage.getItem('agentDisplayName') || 'กรุณากดแก้ไขข้อมูล';
+    const bio = localStorage.getItem('agentBio') || 'ตั้งค่าคำแนะนำตัวของคุณ เพื่อให้ลูกค้ารู้จักคุณมากขึ้น';
+    const exp = localStorage.getItem('agentExp') || '0';
+    const expertiseStr = localStorage.getItem('agentExpertise');
+    const expertise = expertiseStr ? JSON.parse(expertiseStr) : [];
 
-    document.getElementById('preview-real-name').innerText = realName;
-    document.getElementById('preview-agent-code').innerText = agentCode;
-    document.getElementById('preview-agent-unit').innerText = agentUnit;
-    document.getElementById('preview-agent-phone').innerText = agentPhone;
+    document.getElementById('preview-display-name').innerText = dName;
+    document.getElementById('preview-bio').innerText = bio;
+    document.getElementById('preview-exp').innerText = exp + " ปี";
+
+    // Render Badges ในหน้าเว็บ
+    const badgeContainer = document.getElementById('preview-expertise');
+    if(expertise.length > 0) {
+        badgeContainer.innerHTML = expertise.map(item => `<span class="badge">${item}</span>`).join('');
+    } else {
+        badgeContainer.innerHTML = '<span style="color:#aaa; font-size:12px;">ยังไม่ได้ระบุ</span>';
+    }
 }
 
 function openModal() {
-    document.getElementById('input-real-name').value = localStorage.getItem('agentRealName') || '';
-    document.getElementById('input-agent-code').value = localStorage.getItem('agentCode') || '';
-    document.getElementById('input-agent-unit').value = localStorage.getItem('agentUnit') || '';
-    document.getElementById('input-agent-phone').value = localStorage.getItem('agentPhone') || '';
+    document.getElementById('input-display-name').value = localStorage.getItem('agentDisplayName') || '';
+    document.getElementById('input-bio').value = localStorage.getItem('agentBio') || '';
+    document.getElementById('input-exp').value = localStorage.getItem('agentExp') || '';
+    
+    // Checkbox mapping
+    const expertiseStr = localStorage.getItem('agentExpertise');
+    const expertise = expertiseStr ? JSON.parse(expertiseStr) : [];
+    document.querySelectorAll('input[name="expertise"]').forEach(cb => {
+        cb.checked = expertise.includes(cb.value);
+    });
+
     document.getElementById('editModal').style.display = "flex";
 }
 
@@ -226,10 +260,15 @@ function closeModal() {
 }
 
 function saveAgentInfo() {
-    localStorage.setItem('agentRealName', document.getElementById('input-real-name').value);
-    localStorage.setItem('agentCode', document.getElementById('input-agent-code').value);
-    localStorage.setItem('agentUnit', document.getElementById('input-agent-unit').value);
-    localStorage.setItem('agentPhone', document.getElementById('input-agent-phone').value);
+    // Get checked checkboxes
+    const checkedBoxes = document.querySelectorAll('input[name="expertise"]:checked');
+    const expertiseArray = Array.from(checkedBoxes).map(cb => cb.value);
+
+    localStorage.setItem('agentDisplayName', document.getElementById('input-display-name').value);
+    localStorage.setItem('agentBio', document.getElementById('input-bio').value);
+    localStorage.setItem('agentExp', document.getElementById('input-exp').value);
+    localStorage.setItem('agentExpertise', JSON.stringify(expertiseArray));
+    
     loadAgentInfo();
     closeModal();
 }
@@ -237,17 +276,22 @@ function saveAgentInfo() {
 async function shareFlex() {
     try {
         const profile = userProfile || await liff.getProfile();
-        const rName = localStorage.getItem('agentRealName') || 'ชื่อ-นามสกุล';
-        const rCode = localStorage.getItem('agentCode') || '-';
-        const rUnit = localStorage.getItem('agentUnit') || '-';
-        const rPhone = localStorage.getItem('agentPhone') || '-';
+        
+        // ดึงข้อมูลเตรียมส่ง Flex
+        const dName = localStorage.getItem('agentDisplayName') || 'Agent Profile';
+        const bio = localStorage.getItem('agentBio') || '-';
+        const exp = localStorage.getItem('agentExp') || '0';
+        
+        const expertiseStr = localStorage.getItem('agentExpertise');
+        const expertiseArray = expertiseStr ? JSON.parse(expertiseStr) : [];
+        const expertiseText = expertiseArray.length > 0 ? expertiseArray.join(" • ") : "ยังไม่ได้ระบุ";
 
         const flexMessage = {
-            type: "flex",
-            altText: "สิทธิพิเศษนี้เฉพาะคุณเท่านั้น สนใจทักแชทกลับได้เลย",
-            contents: {
-                type: "carousel",
-                contents: [
+            "type": "flex",
+            "altText": "สิทธิพิเศษนี้เฉพาะคุณเท่านั้น สนใจทักแชทกลับได้เลย",
+            "contents": {
+                "type": "carousel",
+                "contents": [
                     {
                         "type": "bubble",
                         "body": {
@@ -281,13 +325,13 @@ async function shareFlex() {
                                         {
                                             "type": "box",
                                             "layout": "vertical",
-                                            "width": "100px",
-                                            "height": "100px",
+                                            "width": "90px",
+                                            "height": "90px",
                                             "cornerRadius": "100px",
                                             "contents": [
                                                 {
                                                     "type": "image",
-                                                    "url": profile.pictureUrl,
+                                                    "url": profile.pictureUrl || "https://cdn-icons-png.flaticon.com/512/2037/2037844.png",
                                                     "size": "full",
                                                     "aspectMode": "cover"
                                                 }
@@ -297,21 +341,23 @@ async function shareFlex() {
                                 },
                                 {
                                     "type": "text",
-                                    "text": profile.displayName,
+                                    "text": dName,
                                     "weight": "bold",
                                     "color": "#111111",
-                                    "size": "xl",
+                                    "size": "lg",
                                     "align": "center",
-                                    "margin": "lg"
+                                    "margin": "md",
+                                    "wrap": true
                                 },
                                 {
                                     "type": "text",
-                                    "text": rName,
-                                    "size": "sm",
-                                    "color": "#555555",
+                                    "text": bio,
+                                    "size": "xs",
+                                    "color": "#666666",
                                     "align": "center",
-                                    "weight": "bold",
-                                    "margin": "md"
+                                    "margin": "sm",
+                                    "wrap": true,
+                                    "maxLines": 3
                                 },
                                 {
                                     "type": "box",
@@ -320,30 +366,23 @@ async function shareFlex() {
                                     "backgroundColor": "#F8F9FA",
                                     "cornerRadius": "lg",
                                     "paddingAll": "16px",
-                                    "spacing": "sm",
+                                    "spacing": "md",
                                     "contents": [
                                         {
                                             "type": "box",
                                             "layout": "horizontal",
                                             "contents": [
-                                                { "type": "text", "text": "รหัสตัวแทน", "size": "xs", "color": "#888888", "flex": 1 },
-                                                { "type": "text", "text": rCode, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
+                                                { "type": "text", "text": "ประสบการณ์ทำงาน", "size": "xs", "color": "#888888", "flex": 2 },
+                                                { "type": "text", "text": exp + " ปี", "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 1 }
                                             ]
                                         },
                                         {
                                             "type": "box",
-                                            "layout": "horizontal",
+                                            "layout": "vertical",
+                                            "spacing": "xs",
                                             "contents": [
-                                                { "type": "text", "text": "ชื่อหน่วย", "size": "xs", "color": "#888888", "flex": 1 },
-                                                { "type": "text", "text": rUnit, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
-                                            ]
-                                        },
-                                        {
-                                            "type": "box",
-                                            "layout": "horizontal",
-                                            "contents": [
-                                                { "type": "text", "text": "เบอร์ติดต่อ", "size": "xs", "color": "#888888", "flex": 1 },
-                                                { "type": "text", "text": rPhone, "size": "xs", "color": "#222222", "weight": "bold", "align": "end", "flex": 2 }
+                                                { "type": "text", "text": "ความเชี่ยวชาญ", "size": "xs", "color": "#888888" },
+                                                { "type": "text", "text": expertiseText, "size": "xs", "color": "#D31145", "weight": "bold", "wrap": true }
                                             ]
                                         }
                                     ]
@@ -362,7 +401,7 @@ async function shareFlex() {
                                     "color": "#D31145",
                                     "height": "sm",
                                     "action": {
-                                              "type": "uri",
+                                        "type": "uri",
               "label": "ดูข้อมูลเพิ่มเติม",
               "uri": "https://aiathailand.info/DISC_Q32026_share_content"
                                     }
