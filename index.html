@@ -137,8 +137,9 @@ body {
 .modal-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; text-align: center; color: #111; }
 .form-group { margin-bottom: 14px; }
 .form-group label { display: block; font-size: 13px; margin-bottom: 6px; font-weight: bold; color: #555; }
-.form-group input[type="text"], .form-group textarea { 
-    width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; font-family: inherit;
+/* อัปเดตให้คลุมถึง Select Box ด้วย */
+.form-group input[type="text"], .form-group textarea, .form-group select { 
+    width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; font-family: inherit; background: #fff;
 }
 .form-group textarea { resize: none; height: 80px; }
 .warning-box {
@@ -183,7 +184,7 @@ body {
 <!-- Single Card Preview -->
 <div class="preview-container">
     <div class="single-card">
-        <img src="https://www.aia.co.th/content/dam/th-wise/images/th/LINE/26aug_banner4.jpg" class="hero-img" alt="Hero">
+        <img src="https://www.aia.co.th/content/dam/th-wise/images/th/LINE/26aug_banner4_2.jpg" class="hero-img" alt="Hero">
         
         <div class="agent-card-body">
             <!-- Profile Section (Horizontal) -->
@@ -193,8 +194,8 @@ body {
                 </div>
                 <div class="profile-info">
                     <div class="title-text" id="preview-display-name">ชื่อที่ต้องการแสดง</div>
-                    <div class="profile1-text" id="preview-profile1">Profile 1</div>
-                    <div class="profile2-text" id="preview-profile2">Profile 2</div>
+                    <div class="profile1-text" id="preview-profile1">ใบอนุญาตฯ: -</div>
+                    <div class="profile2-text" id="preview-profile2">ใจเย็น รับฟังทุกรายละเอียด</div>
                 </div>
                 <!-- Profile Edit Button (SVG Pencil) -->
                 <button class="edit-btn-svg" onclick="openProfileModal()">
@@ -216,7 +217,7 @@ body {
             </div>
         </div>
         <div class="footer">
-            <button class="btn-primary">ดูข้อมูลเพิ่มเติม</button>
+            <button class="btn-primary">สนใจทักแชท</button>
         </div>
     </div>
 </div>
@@ -230,12 +231,18 @@ body {
             <input type="text" id="input-display-name" placeholder="เช่น โค้ชสมชาย AIA">
         </div>
         <div class="form-group">
-            <label>Profile 1</label>
-            <input type="text" id="input-profile1" placeholder="เช่น ผู้เชี่ยวชาญด้านวางแผนการเงิน">
+            <label>เลขที่ใบอนุญาตตัวแทน (10 หลัก)</label>
+            <!-- ใส่ oninput เพื่อดักให้พิมพ์ได้แต่ตัวเลข -->
+            <input type="text" id="input-profile1" placeholder="ระบุตัวเลข 10 หลัก" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
         </div>
         <div class="form-group">
-            <label>Profile 2</label>
-            <input type="text" id="input-profile2" placeholder="เช่น ดูแลลูกค้ากว่า 500 ครอบครัว">
+            <label>สไตล์การขาย</label>
+            <select id="input-profile2">
+                <option value="ใจเย็น รับฟังทุกรายละเอียด">ใจเย็น รับฟังทุกรายละเอียด</option>
+                <option value="คุยง่าย ไม่กดดัน">คุยง่าย ไม่กดดัน</option>
+                <option value="ใส่ใจในรายละเอียด">ใส่ใจในรายละเอียด</option>
+                <option value="ดูแลลูกค้าอย่างต่อเนื่อง">ดูแลลูกค้าอย่างต่อเนื่อง</option>
+            </select>
         </div>
         <div class="warning-box">
             ข้อมูลนี้จะแสดงบนโปรไฟล์ตัวแทน<br>ตรวจสอบความถูกต้องก่อนบันทึก
@@ -282,13 +289,13 @@ async function init() {
 
 function loadAgentInfo() {
     const dName = localStorage.getItem('agentDisplayName') || 'ชื่อตัวแทน';
-    const p1 = localStorage.getItem('agentProfile1') || 'ระบุ Profile 1';
-    const p2 = localStorage.getItem('agentProfile2') || 'ระบุ Profile 2';
+    const p1 = localStorage.getItem('agentProfile1') || 'ระบุเลขที่ใบอนุญาต';
+    const p2 = localStorage.getItem('agentProfile2') || 'ใจเย็น รับฟังทุกรายละเอียด';
     const msg = localStorage.getItem('agentMessage') || 'สิทธิพิเศษนี้เฉพาะคุณเท่านั้น สนใจทักแชทกลับได้เลย';
 
     document.getElementById('preview-display-name').innerText = dName;
-    document.getElementById('preview-profile1').innerText = p1;
-    document.getElementById('preview-profile2').innerText = p2;
+    document.getElementById('preview-profile1').innerText = "ใบอนุญาตฯ: " + p1;
+    document.getElementById('preview-profile2').innerText = p2; // แสดงสไตล์การขายเพียวๆ เลย
     document.getElementById('preview-message').innerText = msg;
 }
 
@@ -296,15 +303,23 @@ function loadAgentInfo() {
 function openProfileModal() {
     document.getElementById('input-display-name').value = localStorage.getItem('agentDisplayName') || '';
     document.getElementById('input-profile1').value = localStorage.getItem('agentProfile1') || '';
-    document.getElementById('input-profile2').value = localStorage.getItem('agentProfile2') || '';
+    document.getElementById('input-profile2').value = localStorage.getItem('agentProfile2') || 'ใจเย็น รับฟังทุกรายละเอียด';
     document.getElementById('editProfileModal').style.display = "flex";
 }
 function closeProfileModal() {
     document.getElementById('editProfileModal').style.display = "none";
 }
 function saveProfileInfo() {
+    const p1Input = document.getElementById('input-profile1').value;
+    
+    // Validate เช็คว่ากรอกครบ 10 หลักหรือไม่
+    if (p1Input.length !== 10) {
+        alert("กรุณากรอกเลขที่ใบอนุญาตตัวแทนให้ครบ 10 หลัก");
+        return;
+    }
+
     localStorage.setItem('agentDisplayName', document.getElementById('input-display-name').value);
-    localStorage.setItem('agentProfile1', document.getElementById('input-profile1').value);
+    localStorage.setItem('agentProfile1', p1Input);
     localStorage.setItem('agentProfile2', document.getElementById('input-profile2').value);
     loadAgentInfo();
     closeProfileModal();
@@ -345,8 +360,8 @@ async function shareFlex() {
         const profile = userProfile || await liff.getProfile();
         
         const dName = localStorage.getItem('agentDisplayName') || 'Agent Profile';
-        const p1 = localStorage.getItem('agentProfile1') || '';
-        const p2 = localStorage.getItem('agentProfile2') || '';
+        const p1 = localStorage.getItem('agentProfile1') || 'ระบุเลขที่ใบอนุญาต';
+        const p2 = localStorage.getItem('agentProfile2') || 'ใจเย็น รับฟังทุกรายละเอียด';
         const msg = localStorage.getItem('agentMessage') || 'สิทธิพิเศษนี้เฉพาะคุณเท่านั้น สนใจทักแชทกลับได้เลย';
 
         const flexMessage = {
@@ -356,7 +371,7 @@ async function shareFlex() {
                 "type": "bubble",
                 "hero": {
                     "type": "image",
-                    "url": "https://www.aia.co.th/content/dam/th-wise/images/th/LINE/26aug_banner4.jpg",
+                    "url": "https://www.aia.co.th/content/dam/th-wise/images/th/LINE/26aug_banner4_2.jpg",
                     "size": "full",
                     "aspectRatio": "16:9",
                     "aspectMode": "cover"
@@ -397,7 +412,7 @@ async function shareFlex() {
                                             "type": "text", "text": dName, "weight": "bold", "color": "#111111", "size": "md", "wrap": true
                                         },
                                         {
-                                            "type": "text", "text": p1, "size": "xs", "color": "#555555", "wrap": true, "margin": "xs"
+                                            "type": "text", "text": "ใบอนุญาตฯ: " + p1, "size": "xs", "color": "#555555", "wrap": true, "margin": "xs"
                                         },
                                         {
                                             "type": "text", "text": p2, "size": "xxs", "color": "#888888", "wrap": true, "margin": "xs"
@@ -434,10 +449,10 @@ async function shareFlex() {
                             "color": "#D31145",
                             "height": "sm",
                             "action": {
-                                        "type": "uri",
-              "label": "ดูข้อมูลเพิ่มเติม",
-              "uri": "https://aiathailand.info/DISC_Q32026_share_content"
-                                    }
+                                "type": "message",
+                                "label": "สนใจทักแชท",
+                                "text": "สนใจสอบถามข้อมูลเพิ่มเติม"
+                            }
                         }
                     ]
                 }
